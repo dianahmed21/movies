@@ -13,6 +13,7 @@ export class HomeComponent implements OnInit {
   tvShows: any;
   responsiveOptions;
   loader = true;
+  isError = false;
 
   constructor(
     private movies: MoviesService,
@@ -36,22 +37,33 @@ export class HomeComponent implements OnInit {
       }
     ];
   }
+  
   ngOnInit() {
     this.trendingMovies(1);
     this.tvShow(1);
   }
 
-  trendingMovies(page: number) {
-    this.movies.getNowPlaying(page).pipe(delay(2000)).subscribe((res: any) => {
-      this.nowPlaying = res.results;
+  async trendingMovies(page: number) {
+  this.nowPlaying = await new Promise(res=>{
+    this.movies.getNowPlaying(page).pipe(delay(2000)).subscribe((data: any) => {
+      res(data.results);
+      this.loader = false;
+    },err=>{
+      this.isError = true;
       this.loader = false;
     });
+  });  
   }
 
-  tvShow(page: number) {
-    this.tv.getTvOnTheAir(page).pipe(delay(2000)).subscribe((res: any) => {
-      this.tvShows = res.results;
-      this.loader = false;
+  async tvShow(page: number) {
+    this.tvShows = await new Promise(res=>{
+      this.tv.getTvOnTheAir(page).pipe(delay(2000)).subscribe((data: any) => {
+        res(data.results);
+        this.loader = false;
+      },err=>{
+        this.isError = true;
+        this.loader = false;
+      });
     });
   }
 }

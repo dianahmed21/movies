@@ -1,9 +1,9 @@
 <div class="listing">
     <div class="listing__head">
-        <h2 class="listing__title">Movie Genre: {{ title }}</h2>
+        <h2 class="listing__title mt-5">Movie Genre: {{ title }}</h2>
     </div>
-    <app-skeleton *ngIf="loader"></app-skeleton>
-    <div class="row" *ngIf="!loader">
+    <app-skeleton *ngIf="loader && !isError"></app-skeleton>
+    <div class="row" *ngIf="!loader && !isError">
         <div class="col-md-2 listing__items" *ngFor="let movie of moviesGenre | slice:0:18">
             <div [routerLink]="['/movies/', movie.id]">
                 <div class="listing-item-style">
@@ -19,6 +19,11 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="text-center" *ngIf="!loader && isError">
+        <h1>- 500 -</h1>
+        <h3>Something went error</h3>
     </div>
     
 </div>

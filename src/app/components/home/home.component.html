@@ -10,8 +10,8 @@
         </a>
     </div>
     
-    <app-skeleton *ngIf="loader" ></app-skeleton>
-    <p-carousel [value]="nowPlaying" [numVisible]="6" [numScroll]="4" [circular]="false" *ngIf="!loader"
+    <app-skeleton *ngIf="loader && !isError" ></app-skeleton>
+    <p-carousel [value]="nowPlaying" [numVisible]="6" [numScroll]="4" [circular]="false" *ngIf="!loader && !isError"
         [responsiveOptions]="responsiveOptions">
         <ng-template let-movie pTemplate="item">
             <div class="listing-item-style" [routerLink]="['/movies/', movie.id]">
@@ -37,8 +37,8 @@
             <strong>Explore All</strong>
         </a>
     </div>
-    <app-skeleton *ngIf="loader"></app-skeleton>
-    <p-carousel [value]="tvShows" [numVisible]="6" [numScroll]="4" [circular]="false" *ngIf="!loader"
+    <app-skeleton *ngIf="loader && !isError"></app-skeleton>
+    <p-carousel [value]="tvShows" [numVisible]="6" [numScroll]="4" [circular]="false" *ngIf="!loader && !isError"
         [responsiveOptions]="responsiveOptions">
         <ng-template let-tv pTemplate="item">
             <div class="listing-item-style" [routerLink]="['/tv/', tv.id]">
@@ -52,4 +52,9 @@
             </div>
         </ng-template>
     </p-carousel>
+</div>
+
+<div class="text-center" *ngIf="!loader && isError">
+    <h1>- 500 -</h1>
+    <h3>Something went error</h3>
 </div>

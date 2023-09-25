@@ -13,6 +13,7 @@ export class GenreComponent implements OnInit {
   title: string;
   public id: number;
   loader = true;
+  isError = false;
 
   constructor(
     private movieService: MoviesService,
@@ -27,11 +28,16 @@ export class GenreComponent implements OnInit {
     });
   }
 
-  getMoviesGenre(id) {
-    this.movieService.getMoviesByGenre(id).pipe(delay(2000)).subscribe((res: any) => {
-        this.moviesGenre = res.results;
+  async getMoviesGenre(id) {
+    this.moviesGenre = await new Promise(res=>{
+      this.movieService.getMoviesByGenre(id).pipe(delay(2000)).subscribe((data: any) => {
+          res(data.results);
+          this.loader = false;
+      },err=>{
+        this.isError = true;
         this.loader = false;
-    });
+      });
+    })
   }
 
 }

@@ -12,6 +12,7 @@ export class GenreListComponent implements OnInit {
 
   genreslist: any;
   loader = true;
+  isError = false;
 
   constructor(
     private _movie: MoviesService
@@ -21,11 +22,16 @@ export class GenreListComponent implements OnInit {
     this.MovieGenre();
   }
 
-  MovieGenre() {
-    this._movie.getGenres().pipe(delay(2000)).subscribe((res: any) => {
-      this.genreslist = res.genres;
-      this.loader = false;
-    });
+  async MovieGenre() {
+    this.genreslist = await new Promise(res=>{
+      this._movie.getGenres().pipe(delay(2000)).subscribe((data: any) => {
+        res(data.genres);
+        this.loader = false;
+      },err=>{
+        this.isError = true;
+        this.loader = false;
+      });
+    })
   }
 
 }

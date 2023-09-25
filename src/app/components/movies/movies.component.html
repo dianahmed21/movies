@@ -1,7 +1,7 @@
 <div class="listing">
     <div class="listing__head">
-        <h3 class="listing__title" *ngIf="!searchRes">Movies</h3>
-        <h3 class="listing__title" *ngIf="searchRes">Search Movies</h3>
+        <h3 class="listing__title mt-5" *ngIf="!searchRes">Movies</h3>
+        <h3 class="listing__title mt-5" *ngIf="searchRes">Search Movies</h3>
     </div>
     <form>
         <div class="row">
@@ -19,9 +19,9 @@
         </div>    
     </form>
 
-    <ng-container *ngIf="searchRes">
-        <app-skeleton *ngIf="loader"></app-skeleton>
-        <div class="row" *ngIf="!loader">
+    <ng-container>
+        <app-skeleton *ngIf="loader && !isError"></app-skeleton>
+        <div class="row" *ngIf="!loader && !isError && searchRes?.length">
             <div class="col-md-2 listing__items" *ngFor="let movie of searchRes | slice:0:18">
                 <div [routerLink]="['/movies/', movie.id]">
                     <div class="listing-item-style">
@@ -41,28 +41,13 @@
             </div>
         </div>
     </ng-container>
+    
+    <ng-container *ngIf="!loader && !isError && !searchRes?.length">
+        <h3>No Results</h3>
+    </ng-container>
+</div>
 
-    <app-skeleton *ngIf="loader"></app-skeleton>
-    <div class="row" *ngIf="!loader">
-        <div class="col-md-2 listing__items" *ngFor="let movie of topRated | slice:0:18">
-            <div [routerLink]="['/movies/', movie.id]">
-                <div class="listing-item-style">
-                    <div class="overlay">
-                        <div class="hover"><i class="material-icons">play_arrow</i> PLAY NOW</div>
-                    </div>
-                    <img src="https://image.tmdb.org/t/p/w370_and_h556_bestv2/{{movie?.poster_path}}"
-                        [alt]="movie.title ? movie.title : movie.name">
-                    <img *ngIf="!movie?.poster_path" src="assets/images/default-movie.png"
-                        [alt]="movie.title ? movie.title : movie.name">
-                    <h6>{{ movie?.title }}</h6>
-                    <p class="rate"><i class="material-icons">star</i><span>{{movie?.vote_average}}</span> /10</p>
-                    <p class="year"><span>{{movie?.release_date | date: 'yyyy'}}</span>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <mat-paginator [length]="totalResults" [pageSize]="20" (page)="changePage($event)"></mat-paginator>
-    
+<div class="text-center" *ngIf="!loader && isError">
+    <h1>- 500 -</h1>
+    <h3>Something went error</h3>
 </div>

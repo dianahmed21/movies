@@ -24,17 +24,11 @@ Live Demo https://flixmovies-82298.firebaseapp.com
 ## Installation
 
 ```bash
-git clone https://github.com/abidakram01/angular-movie-app.git
+git clone https://github.com/dianahmed21/movies.git
 cd angular-movie-app
 npm install
 ng serve and go to http://localhost:4200/
 ```
-
-<p align="center">
-    <a href="https://flixmovies-82298.firebaseapp.com">
-        <img src="https://github.com/abidakram01/FlixMovies/blob/master/moviesScreen.png" alt="FlixMovies" />
-    </a>
-</p>
 
 ## Become a contributor ?
 

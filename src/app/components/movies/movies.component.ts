@@ -8,12 +8,12 @@ import { delay } from 'rxjs/internal/operators/delay';
   styleUrls: ['./movies.component.scss']
 })
 export class MoviesComponent implements OnInit {
-  topRated: any;
   responsiveOptions;
   loader = true;
+  isError = false;
   totalResults: any;
   total_results: any;
-  searchRes: any;
+  searchRes: any[] = [];
   searchStr: string;
 
   constructor(private movieService: MoviesService) {
@@ -40,13 +40,19 @@ export class MoviesComponent implements OnInit {
     this.getTopRatedMovies(1);
   }
 
-  getTopRatedMovies(page: number) {
-    this.movieService.getTopRatedMovies(page).pipe(delay(2000)).subscribe((res: any) => {
-      this.topRated = res.results;
-      this.totalResults = res.total_results;
-      this.loader = false;
-    },
-    error => console.log(error));
+  async getTopRatedMovies(page: number) {
+    this.loader = true;
+    const topRatedData:any = await new Promise(res=>{
+      this.movieService.getTopRatedMovies(page).pipe(delay(2000)).subscribe((data: any) => {
+        res(data)
+        this.loader = false;
+      },error => {
+        this.isError = true;
+        this.loader = false;
+      });
+    });
+    this.searchRes = topRatedData.results;
+    this.totalResults = topRatedData.total_results;
   }
 
   changePage(event) {
@@ -54,10 +60,22 @@ export class MoviesComponent implements OnInit {
     this.getTopRatedMovies(event.pageIndex + 1);
   }
 
-  searchMovies() {
-    this.movieService.searchMovies(this.searchStr).subscribe(res => {
-      this.searchRes = res.results;
-    });
+  async searchMovies() {
+    if(this.searchStr){
+      this.loader = true;
+      this.searchRes = await new Promise(res=>{
+        this.movieService.searchMovies(this.searchStr).subscribe((data:any) => {
+          res(data.results);
+          this.loader = false;
+        },err=>{
+          this.isError = true;
+          this.loader = false;
+        });
+      });
+    }
+    else{
+    this.getTopRatedMovies(1);
+    }
   }
 
 
