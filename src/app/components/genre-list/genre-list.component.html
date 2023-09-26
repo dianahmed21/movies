@@ -1,8 +1,10 @@
+<br><br><br>
+<br><br><br>
 <div class="container-fluid mt-20 mb-20">
     <app-skeleton *ngIf="loader && !isError"></app-skeleton>
     <div class="row mt-5">
         <div class="col-md-12 text-center" *ngIf="!loader && !isError">
-            <h2 class="mb-3 mt-5">Movies Genres</h2>
+            <h2 class="mb-3">Movies Genres</h2>
             <a *ngFor="let genre of genreslist" routerLink="/genres/{{genre.id}}/{{genre.name}}">
                 <button mat-raised-button color="primary" class="genre-card blue-theme" aria-label="Genres">
                     {{genre.name}}

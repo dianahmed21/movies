@@ -15,6 +15,8 @@ export class MoviesComponent implements OnInit {
   total_results: any;
   searchRes: any[] = [];
   searchStr: string;
+  page:number = 0;
+  infiniteLoader: boolean;
 
   constructor(private movieService: MoviesService) {
     this.responsiveOptions = [
@@ -37,13 +39,14 @@ export class MoviesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getTopRatedMovies(1);
+    this.getTopRatedMovies();
   }
 
-  async getTopRatedMovies(page: number) {
+  async getTopRatedMovies() {
+    this.page += 1;
     this.loader = true;
     const topRatedData:any = await new Promise(res=>{
-      this.movieService.getTopRatedMovies(page).pipe(delay(2000)).subscribe((data: any) => {
+      this.movieService.getTopRatedMovies(this.page).pipe(delay(2000)).subscribe((data: any) => {
         res(data)
         this.loader = false;
       },error => {
@@ -51,13 +54,24 @@ export class MoviesComponent implements OnInit {
         this.loader = false;
       });
     });
-    this.searchRes = topRatedData.results;
+    this.searchRes.push(...topRatedData.results);
     this.totalResults = topRatedData.total_results;
   }
 
-  changePage(event) {
-    this.loader = true;
-    this.getTopRatedMovies(event.pageIndex + 1);
+  async onScroll(){
+    this.page += 1;
+    this.infiniteLoader = true;
+    const topRatedData:any = await new Promise(res=>{
+      this.movieService.getTopRatedMovies(this.page).pipe(delay(2000)).subscribe((data: any) => {
+        res(data)
+        this.infiniteLoader = false;
+      },error => {
+        this.isError = true;
+        this.infiniteLoader = false;
+      });
+    });
+    this.searchRes.push(...topRatedData.results);
+    this.totalResults = topRatedData.total_results;
   }
 
   async searchMovies() {
@@ -74,7 +88,8 @@ export class MoviesComponent implements OnInit {
       });
     }
     else{
-    this.getTopRatedMovies(1);
+      this.page = 1;
+      this.getTopRatedMovies();
     }
   }
 

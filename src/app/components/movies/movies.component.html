@@ -21,8 +21,8 @@
 
     <ng-container>
         <app-skeleton *ngIf="loader && !isError"></app-skeleton>
-        <div class="row" *ngIf="!loader && !isError && searchRes?.length">
-            <div class="col-md-2 listing__items" *ngFor="let movie of searchRes | slice:0:18">
+        <div class="row" *ngIf="!loader && !isError && searchRes?.length" infinite-scroll (scrolled)="onScroll()">
+            <div class="col-md-2 listing__items" *ngFor="let movie of searchRes">
                 <div [routerLink]="['/movies/', movie.id]">
                     <div class="listing-item-style">
                         <div class="overlay">
@@ -45,6 +45,8 @@
     <ng-container *ngIf="!loader && !isError && !searchRes?.length">
         <h3>No Results</h3>
     </ng-container>
+
+        <app-skeleton *ngIf="infiniteLoader"></app-skeleton>
 </div>
 
 <div class="text-center" *ngIf="!loader && isError">
