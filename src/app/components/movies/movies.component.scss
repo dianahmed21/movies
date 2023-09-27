@@ -21,3 +21,17 @@ mat-paginator{
     background: #dc4666;
     border: #dc4666;
 }
+
+#myBtn {
+    background: #dc4666 !important;
+    border: #dc4666 !important;
+    display: none;
+    position: fixed;
+    width: 50px;
+    right: 25px;
+    bottom: 1rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    z-index: 9;
+  }

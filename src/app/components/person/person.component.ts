@@ -10,7 +10,6 @@ import { ActivatedRoute, Params } from '@angular/router';
 export class PersonComponent implements OnInit {
   public id: number;
   person: any;
-  // tslint:disable-next-line: variable-name
   person_cast: any = [];
 
   constructor(

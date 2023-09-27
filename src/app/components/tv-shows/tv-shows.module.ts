@@ -6,8 +6,9 @@ import { TvShowsComponent } from './tv-shows.component';
 import { CarouselModule } from 'primeng/carousel';
 import { PipeModule } from 'src/app/pipe/pipe.module';
 import { SkeletonModule } from 'src/app/shared/skeleton/skeleton.module';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { FormsModule } from '@angular/forms';
     CarouselModule,
     SkeletonModule,
     MatPaginatorModule,
-    FormsModule
+    FormsModule,
+    InfiniteScrollModule
   ],
   declarations: [
     TvShowsComponent,

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MoviesService } from 'src/app/service/movies.service';
 import { delay } from 'rxjs/internal/operators/delay';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-movies',
@@ -15,83 +16,100 @@ export class MoviesComponent implements OnInit {
   total_results: any;
   searchRes: any[] = [];
   searchStr: string;
-  page:number = 0;
+  page: number = 0;
   infiniteLoader: boolean;
+  pageYoffset: number
 
-  constructor(private movieService: MoviesService) {
+  constructor(
+    private movieService: MoviesService,
+    private scroll: ViewportScroller
+  ) {
     this.responsiveOptions = [
       {
-          breakpoint: '1024px',
-          numVisible: 3,
-          numScroll: 3
+        breakpoint: '1024px',
+        numVisible: 3,
+        numScroll: 3
       },
       {
-          breakpoint: '768px',
-          numVisible: 2,
-          numScroll: 2
+        breakpoint: '768px',
+        numVisible: 2,
+        numScroll: 2
       },
       {
-          breakpoint: '560px',
-          numVisible: 1,
-          numScroll: 1
+        breakpoint: '560px',
+        numVisible: 1,
+        numScroll: 1
       }
-  ];
+    ];
   }
 
   ngOnInit() {
-    this.getTopRatedMovies();
+    this.getNowPlaying();
   }
 
-  async getTopRatedMovies() {
+  async getNowPlaying() {
     this.page += 1;
     this.loader = true;
-    const topRatedData:any = await new Promise(res=>{
-      this.movieService.getTopRatedMovies(this.page).pipe(delay(2000)).subscribe((data: any) => {
+    const nowPlaying: any = await new Promise(res => {
+      this.movieService.getNowPlaying(this.page).pipe(delay(2000)).subscribe((data: any) => {
         res(data)
         this.loader = false;
-      },error => {
+      }, error => {
         this.isError = true;
         this.loader = false;
       });
     });
-    this.searchRes.push(...topRatedData.results);
-    this.totalResults = topRatedData.total_results;
+    this.searchRes.push(...nowPlaying.results);
+    this.totalResults = nowPlaying.total_results;
   }
 
-  async onScroll(){
+  async onScrollDown() {
     this.page += 1;
     this.infiniteLoader = true;
-    const topRatedData:any = await new Promise(res=>{
-      this.movieService.getTopRatedMovies(this.page).pipe(delay(2000)).subscribe((data: any) => {
+    const nowPlaying: any = await new Promise(res => {
+      this.movieService.getNowPlaying(this.page).pipe(delay(2000)).subscribe((data: any) => {
         res(data)
         this.infiniteLoader = false;
-      },error => {
+      }, error => {
         this.isError = true;
         this.infiniteLoader = false;
       });
     });
-    this.searchRes.push(...topRatedData.results);
-    this.totalResults = topRatedData.total_results;
+    this.searchRes.push(...nowPlaying.results);
+    this.totalResults = nowPlaying.total_results;
   }
 
   async searchMovies() {
-    if(this.searchStr){
+    if (this.searchStr) {
       this.loader = true;
-      this.searchRes = await new Promise(res=>{
-        this.movieService.searchMovies(this.searchStr).subscribe((data:any) => {
+      this.searchRes = await new Promise(res => {
+        this.movieService.searchMovies(this.searchStr).subscribe((data: any) => {
           res(data.results);
           this.loader = false;
-        },err=>{
+        }, err => {
           this.isError = true;
           this.loader = false;
         });
       });
     }
-    else{
+    else {
       this.page = 1;
-      this.getTopRatedMovies();
+      this.getNowPlaying();
     }
   }
 
+  @HostListener('window:scroll', ['$event']) onScroll(event) {
+    this.pageYoffset = window.pageYOffset
+    var mybutton = document.getElementById('myBtn')
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      mybutton.style.display = 'block'
+    } else {
+      mybutton.style.display = 'none'
+    }
+  }
+
+  scrollToTop() {
+    this.scroll.scrollToPosition([0, 0])
+  }
 
 }

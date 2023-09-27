@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation, Inject } from '@angular/core';
-import { ActivatedRoute , Params} from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatDialog } from '@angular/material/dialog';
 import { AppTvDialogComponent } from './app-tv-dialog/app-tv-dialog.component';
@@ -25,6 +25,8 @@ export class TvShowDetailsComponent implements OnInit {
   _posters: any;
   _recomend: any;
   responsiveOptions;
+  loader = true;
+  isError = false;
 
   constructor(
     private tvService: TvService,
@@ -34,22 +36,22 @@ export class TvShowDetailsComponent implements OnInit {
   ) {
     this.responsiveOptions = [
       {
-          breakpoint: '1024px',
-          numVisible: 3,
-          numScroll: 3
+        breakpoint: '1024px',
+        numVisible: 3,
+        numScroll: 3
       },
       {
-          breakpoint: '768px',
-          numVisible: 2,
-          numScroll: 2
+        breakpoint: '768px',
+        numVisible: 2,
+        numScroll: 2
       },
       {
-          breakpoint: '560px',
-          numVisible: 1,
-          numScroll: 1
+        breakpoint: '560px',
+        numVisible: 1,
+        numScroll: 1
       }
-  ];
-   }
+    ];
+  }
 
   ngOnInit() {
     this.router.params.subscribe((params: Params) => {
@@ -62,19 +64,34 @@ export class TvShowDetailsComponent implements OnInit {
     });
   }
 
-  getTvDetails(id) {
-    this.tvService.getTVShow(id).subscribe((res: any) => {
-      this.episode = res;
+  async getTvDetails(id) {
+    this.loader = true;
+    this.episode = await new Promise(res => {
+      this.tvService.getTVShow(id).subscribe((data: any) => {
+        res(data);
+        this.loader = false;
+      }, error => {
+        this.loader = false;
+        this.isError = true;
+      });
     });
   }
 
-  getTvVideos(id) {
-    this.tvService.getTvVideos(id).subscribe((res: any) => {
-      if (res.results.length) {
-        this.video = res.results[0];
-        this.related_video = res.results;
-      }
-    });
+  async getTvVideos(id) {
+    this.loader = true;
+    const tvVideos: any = await new Promise(res => {
+      this.tvService.getTvVideos(id).subscribe((data: any) => {
+        res(data);
+        this.loader = false;
+      }, error => {
+        this.loader = false;
+        this.isError = true;
+      });
+    })
+    if (tvVideos.results.length) {
+      this.video = tvVideos.results[0];
+      this.related_video = tvVideos.results;
+    }
   }
 
   openDialogTv(video): void {
@@ -82,25 +99,46 @@ export class TvShowDetailsComponent implements OnInit {
     this.dialog.open(AppTvDialogComponent, {
       height: '600px',
       width: '900px',
-      data: { video: this.video}
+      data: { video: this.video }
     });
   }
 
-  getTvCast(id) {
-    this.tvService.getMovieCredits(id).subscribe((res: any) => {
-      this.casts = res.cast;
+  async getTvCast(id) {
+    this.loader = true;
+    this.casts = await new Promise(res => {
+      this.tvService.getMovieCredits(id).subscribe((data: any) => {
+        res(data.cast);
+        this.loader = false;
+      }, error => {
+        this.loader = false;
+        this.isError = true;
+      });
     });
   }
 
-  getTvBackropsImages(id) {
-    this.tvService.getTvBackdropsImages(id).subscribe((res: any) => {
-      this.backdrop = res.backdrops;
+  async getTvBackropsImages(id) {
+    this.loader = true;
+    this.backdrop = await new Promise(res => {
+      this.tvService.getTvBackdropsImages(id).subscribe((data: any) => {
+        res(data.backdrops);
+        this.loader = false;
+      }, error => {
+        this.loader = false;
+        this.isError = true;
+      });
     });
   }
 
-  getRecomendTv(id) {
-    this.tvService.getRecomendTv(id).subscribe((res: any) => {
-      this._recomend = res.results;
+  async getRecomendTv(id) {
+    this.loader = true;
+    this._recomend = await new Promise(res => {
+      this.tvService.getRecomendTv(id).subscribe((data: any) => {
+        res(data.results);
+        this.loader = false;
+      }, error => {
+        this.loader = false;
+        this.isError = true;
+      });
     });
   }
 

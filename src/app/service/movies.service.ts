@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs';
-import {HttpClient} from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,6 @@ export class MoviesService {
   }
 
   getNowPlaying(page: number): Observable<any> {
-    // tslint:disable-next-line: max-line-length
     return this.http.get(`${this.baseUrl}movie/now_playing?api_key=${this.apiKey}&page=${page}&language=${this.language}&region=${this.region}`);
   }
 
@@ -28,17 +27,14 @@ export class MoviesService {
   }
 
   getPopular(page: number): Observable<any> {
-    // tslint:disable-next-line: max-line-length
     return this.http.get(`${this.baseUrl}movie/popular?api_key=${this.apiKey}&page=${page}&language=${this.language}&region=${this.region}`);
   }
 
   getUpComingMovies(page: number): Observable<any> {
-    // tslint:disable-next-line: max-line-length
     return this.http.get(`${this.baseUrl}movie/upcoming?api_key=${this.apiKey}&page=${page}&language=${this.language}&region=${this.region}`);
   }
 
   getTopRatedMovies(page: number): Observable<any> {
-    // tslint:disable-next-line: max-line-length
     return this.http.get(`${this.baseUrl}movie/top_rated?api_key=${this.apiKey}&page=${page}&language=${this.language}&region=${this.region}`);
   }
 

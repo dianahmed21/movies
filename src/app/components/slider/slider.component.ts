@@ -16,9 +16,7 @@ import { delay } from 'rxjs/internal/operators/delay';
 })
 export class SliderComponent implements OnInit {
   current = 0;
-  // tslint:disable-next-line: variable-name
   movies_data: any;
-  // tslint:disable-next-line: variable-name
   tv_shows: any;
 
 

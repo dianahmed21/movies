@@ -1,4 +1,6 @@
-<div class="hero">
+<app-skeleton *ngIf="loader && !isError"></app-skeleton>
+
+<div class="hero" *ngIf="!loader && !isError">
     <div class="backdrop">
         <div class="lazyloaded">
             <button class="play" type="button" (click)="openDialogMovie(this.video)">
@@ -6,7 +8,8 @@
                     <circle cx="27.5" cy="27.5" r="26.75" fill="none" stroke="#fff" stroke-linecap="round"
                         stroke-linejoin="round" stroke-width="1.5" />
                     <path fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                        d="M20.97 40.81L40.64 27.5 20.97 14.19v26.62z" /></svg>
+                        d="M20.97 40.81L40.64 27.5 20.97 14.19v26.62z" />
+                </svg>
             </button>
             <img class="lazyload image" src="https://image.tmdb.org/t/p/original/{{ movie?.backdrop_path }}">
         </div>
@@ -22,7 +25,7 @@
                     </span>
                     <span> {{movie?.vote_count | numberWithCommas }} Reviews</span>
                     <span>{{movie?.release_date | date: 'yyyy' }}</span>
-                    <span>{{movie?.runtime | time  }}</span>
+                    <span>{{movie?.runtime | time }}</span>
                 </div>
             </div>
             <div class="desc">{{ movie?.overview }}</div>
@@ -34,7 +37,7 @@
     </div>
 </div>
 
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="!loader && !isError">
     <div class="row">
         <div class="col-md-12">
             <mat-tab-group class="mt-5 mb-5" mat-align-tabs="center" animationDuration="0ms">
@@ -65,7 +68,7 @@
                                             Runtime
                                         </div>
                                         <div class="value">
-                                            {{ movie?.runtime | time  }}
+                                            {{ movie?.runtime | time }}
                                         </div>
                                     </li>
                                     <li *ngIf="movie?.budget">
@@ -118,7 +121,8 @@
                         <div class="listing__head">
                             <h2 class="listing__title">Cast</h2>
                         </div>
-                        <p-carousel [value]="casts" [numVisible]="6" [numScroll]="4" [circular]="false" [responsiveOptions]="responsiveOptions">
+                        <p-carousel [value]="casts" [numVisible]="6" [numScroll]="4" [circular]="false"
+                            [responsiveOptions]="responsiveOptions">
                             <ng-template let-cast pTemplate="item">
                                 <div class="listing-item-style" [routerLink]="['/person/', cast.id]">
                                     <div class="overlay">
@@ -172,7 +176,8 @@
                         <div class="items">
                             <div class="item backdrop_" *ngFor="let backdrop of backdrops | slice: 1:17">
                                 <div class="image">
-                                    <img class="lazyload" src="https://image.tmdb.org/t/p/w533_and_h300_bestv2/{{ backdrop?.file_path }}">
+                                    <img class="lazyload"
+                                        src="https://image.tmdb.org/t/p/w533_and_h300_bestv2/{{ backdrop?.file_path }}">
                                 </div>
                             </div>
                         </div>
@@ -185,7 +190,8 @@
                 <div class="listing__head">
                     <h2 class="listing__title">Recommended Movies</h2>
                 </div>
-                <p-carousel [value]="recomendMovies" [numVisible]="6" [numScroll]="4" [circular]="false" [responsiveOptions]="responsiveOptions">
+                <p-carousel [value]="recomendMovies" [numVisible]="6" [numScroll]="4" [circular]="false"
+                    [responsiveOptions]="responsiveOptions">
                     <ng-template let-recomend pTemplate="item">
                         <div class="listing-item-style" [routerLink]="['/movies/', recomend.id]">
                             <div class="overlay">
@@ -204,4 +210,9 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="text-center" *ngIf="!loader && isError">
+    <h1>- 500 -</h1>
+    <h3>Something went error</h3>
 </div>

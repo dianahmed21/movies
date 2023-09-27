@@ -29,15 +29,15 @@ export class GenreComponent implements OnInit {
   }
 
   async getMoviesGenre(id) {
-    this.moviesGenre = await new Promise(res=>{
+    this.moviesGenre = await new Promise(res => {
       this.movieService.getMoviesByGenre(id).pipe(delay(2000)).subscribe((data: any) => {
-          res(data.results);
-          this.loader = false;
-      },err=>{
+        res(data.results);
+        this.loader = false;
+      }, err => {
         this.isError = true;
         this.loader = false;
       });
-    })
+    });
   }
 
 }

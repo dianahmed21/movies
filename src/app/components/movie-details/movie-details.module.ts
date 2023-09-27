@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { AppMovieDialogComponent } from './app-movie-dialog/app-movie-dialog.component';
 import { CarouselModule } from 'primeng/carousel';
 import { PipeModule } from 'src/app/pipe/pipe.module';
+import { SkeletonModule } from 'src/app/shared/skeleton/skeleton.module';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { PipeModule } from 'src/app/pipe/pipe.module';
     MatTabsModule,
     MatDialogModule,
     MatIconModule,
-    CarouselModule
+    CarouselModule,
+    SkeletonModule
   ],
 
 })

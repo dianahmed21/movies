@@ -14,6 +14,8 @@ export class TvGenreComponent implements OnInit {
   _tv: Object;
   title: string;
   public id: number;
+  loader = true;
+  isError = false;
 
   constructor(
     private tvService: TvService,
@@ -29,9 +31,16 @@ export class TvGenreComponent implements OnInit {
     });
   }
 
-  getTvByGenre(id) {
-    this.tvService.getTVShowByGenre(id).subscribe((res: any) => {
-        this._tv = res.results;
+  async getTvByGenre(id) {
+    this.loader = true;
+    this._tv = await new Promise(res => {
+      this.tvService.getTVShowByGenre(id).subscribe((data: any) => {
+        res(data.results);
+        this.loader = false;
+      }, err => {
+        this.loader = false;
+        this.isError = true;
+      });
     });
   }
 
