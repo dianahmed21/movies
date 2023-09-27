@@ -40,6 +40,14 @@
                         </p>
                     </div>
                 </div>
+                <button type="button" class="btn btn-warning font-weight-bold ml-1 mb-3" *ngIf="!item?.isFavorite"
+                    (click)="setFavorite(item)">
+                    <i class="material-icons" style="font-size: 11px;">star</i> Mark as Favorite
+                </button>
+                <button type="button" class="btn btn-warning font-weight-bold ml-1 mb-3" *ngIf="item?.isFavorite"
+                    (click)="removeFavorite(item)">
+                    <i class="material-icons" style="font-size: 11px;">star_border</i> Remove Favorite
+                </button>
             </div>
         </div>
     </ng-container>

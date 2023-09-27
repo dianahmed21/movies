@@ -15,7 +15,7 @@ export class TvShowsComponent implements OnInit {
   isError = false;
   totalResults: any;
   total_results: any;
-  searchRes: any;
+  searchRes: any[] = [];
   searchStr: string;
   page: number = 0;
   infiniteLoader: boolean;
@@ -62,6 +62,7 @@ export class TvShowsComponent implements OnInit {
     });
     this.searchRes.push(...popularTvShows.results);
     this.totalResults = popularTvShows.total_results;
+    this.favoriteCheck();
   }
 
   async onScrollDown() {
@@ -78,6 +79,7 @@ export class TvShowsComponent implements OnInit {
     });
     this.searchRes.push(...popularTvShows.results);
     this.totalResults = popularTvShows.total_results;
+    this.favoriteCheck();
   }
 
   async searchMovies() {
@@ -92,11 +94,42 @@ export class TvShowsComponent implements OnInit {
           this.loader = false;
         });
       });
+      this.favoriteCheck();
     }
     else {
       this.page = 1;
       this.getPopularTVShows();
     }
+  }
+
+  setFavorite(data) {
+    const movie: any[] = !JSON.parse(localStorage.getItem('tv')) ? [] : JSON.parse(localStorage.getItem('tv'));
+    movie.push(data);
+    localStorage.setItem('tv', JSON.stringify(movie));
+    this.favoriteCheck();
+  }
+
+  private favoriteCheck() {
+    const favoriteData: any[] = JSON.parse(localStorage.getItem('tv'));
+    if (favoriteData?.length && this.searchRes.length) {
+      favoriteData.forEach(favorite => {
+        this.searchRes.forEach(tv => {
+          if (favorite.id === tv.id) {
+            tv.isFavorite = true;
+          }
+          else {
+            tv.isFavorite = false;
+          }
+        });
+      });
+    }
+  }
+
+  removeFavorite(data) {
+    let movie: any[] = !JSON.parse(localStorage.getItem('tv')) ? [] : JSON.parse(localStorage.getItem('tv'));
+    movie = movie.filter(x => x.id !== data.id);
+    localStorage.setItem('tv', JSON.stringify(movie));
+    this.searchRes.filter(x => x.id === data.id)[0].isFavorite = false;
   }
 
   @HostListener('window:scroll', ['$event']) onScroll(event) {

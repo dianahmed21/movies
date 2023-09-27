@@ -26,6 +26,12 @@
                 <p class="year"><span>{{movie?.release_date | date: 'yyyy'}}</span>
                 </p>
             </div>
+            <button type="button" class="btn btn-warning font-weight-bold ml-1" *ngIf="!movie?.isFavorite" (click)="setFavorite('movie', movie)">
+                <i class="material-icons" style="font-size: 11px;">star</i> Mark as Favorite
+            </button>
+            <button type="button" class="btn btn-warning font-weight-bold ml-1" *ngIf="movie?.isFavorite" (click)="removeFavorite('movie', movie)">
+                <i class="material-icons" style="font-size: 11px;">star_border</i> Remove Favorite
+            </button>
         </ng-template>
     </p-carousel>
 </div>
@@ -50,6 +56,12 @@
                 <p class="rate"><i class="material-icons">star</i><span>{{tv?.vote_average}}</span>/10</p>
                 <p class="year"><span>{{tv?.first_air_date | date: 'yyyy'}}</span>
             </div>
+            <button type="button" class="btn btn-warning font-weight-bold ml-1" *ngIf="!tv?.isFavorite" (click)="setFavorite('tv', tv)">
+                <i class="material-icons" style="font-size: 11px;">star</i> Mark as Favorite
+            </button>
+            <button type="button" class="btn btn-warning font-weight-bold ml-1" *ngIf="tv?.isFavorite" (click)="removeFavorite('tv', tv)">
+                <i class="material-icons" style="font-size: 11px;">star_border</i> Remove Favorite
+            </button>
         </ng-template>
     </p-carousel>
 </div>

@@ -47,6 +47,10 @@ const routes: Routes = [
     loadChildren: () => import('./components/tv-genre/tv-genre.module').then(m => m.TvGenreModule)
   },
 
+  { 
+    path: 'favorites', loadChildren: () => import('./components/favorites/favorites.module').then(m => m.FavoritesModule) 
+  },
+
   {
     path: '**',
     redirectTo: ''

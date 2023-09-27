@@ -61,6 +61,7 @@ export class MoviesComponent implements OnInit {
     });
     this.searchRes.push(...nowPlaying.results);
     this.totalResults = nowPlaying.total_results;
+    this.favoriteCheck();
   }
 
   async onScrollDown() {
@@ -77,6 +78,7 @@ export class MoviesComponent implements OnInit {
     });
     this.searchRes.push(...nowPlaying.results);
     this.totalResults = nowPlaying.total_results;
+    this.favoriteCheck();
   }
 
   async searchMovies() {
@@ -91,11 +93,42 @@ export class MoviesComponent implements OnInit {
           this.loader = false;
         });
       });
+      this.favoriteCheck();
     }
     else {
       this.page = 1;
       this.getNowPlaying();
     }
+  }
+
+  setFavorite(data) {
+    const movie: any[] = !JSON.parse(localStorage.getItem('movie')) ? [] : JSON.parse(localStorage.getItem('movie'));
+    movie.push(data);
+    localStorage.setItem('movie', JSON.stringify(movie));
+    this.favoriteCheck();
+  }
+
+  private favoriteCheck() {
+    const favoriteData: any[] = JSON.parse(localStorage.getItem('movie'));
+    if (favoriteData?.length && this.searchRes.length) {
+      favoriteData.forEach(favorite => {
+        this.searchRes.forEach(movie => {
+          if (favorite.id === movie.id) {
+            movie.isFavorite = true;
+          }
+          else {
+            movie.isFavorite = false;
+          }
+        });
+      });
+    }
+  }
+
+  removeFavorite(data) {
+    let movie: any[] = !JSON.parse(localStorage.getItem('movie')) ? [] : JSON.parse(localStorage.getItem('movie'));
+    movie = movie.filter(x => x.id !== data.id);
+    localStorage.setItem('movie', JSON.stringify(movie));
+    this.searchRes.filter(x => x.id === data.id)[0].isFavorite = false;
   }
 
   @HostListener('window:scroll', ['$event']) onScroll(event) {

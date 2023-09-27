@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd } from '@angular/router';
-import {ThemePalette} from '@angular/material/core';
-import {ProgressSpinnerMode} from '@angular/material/progress-spinner';
-
+import { ThemePalette } from '@angular/material/core';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-root',
@@ -16,15 +15,14 @@ export class AppComponent {
   mode: ProgressSpinnerMode = 'indeterminate';
   value = 50;
 
-
   constructor(private router: Router) {
-    router.events.subscribe(event => {
+    this.router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
         this.loading = true;
       } else if (event instanceof NavigationEnd) {
-        setTimeout (() => {
+        setTimeout(() => {
           this.loading = false;
-       }, 1000);
+        }, 1000);
       }
     });
   }
