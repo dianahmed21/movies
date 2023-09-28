@@ -1,8 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
-import { MoviesService } from 'src/app/service/movies.service';
-import { TvService } from 'src/app/service/tv.service';
-
+import { Component, HostListener, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -10,31 +6,30 @@ import { TvService } from 'src/app/service/tv.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  language:string;
+  @Input() loading: boolean = true;
+  language: string = !localStorage.getItem('lang') ? "en-US" : localStorage.getItem('lang');
   searchBarUp;
   leftSidebar;
-  isShow:boolean = true;
+  isShow: boolean = true;
+  isShowLoading: boolean;
 
-  constructor(
-    private router:Router,
-    private tvService:TvService,
-    private movieService:MoviesService
-    ) { 
-      this.language = this.movieService.language;
-    }
+  constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
-  setLanguage(languageSelect){
+  setLanguage(languageSelect) {
     this.isShow = false;
     this.language = languageSelect;
-    this.tvService.language = languageSelect;
-    this.movieService.language = languageSelect;
-    const currentUrl = this.router.url;
-    this.router.navigateByUrl('/movies',{skipLocationChange:true}).then(()=>{
-      this.router.navigate([currentUrl]);
-    })
+    localStorage.setItem('lang', languageSelect);
+    window.location.reload();
+  }
+
+  @HostListener('window:scroll', ['$event']) onScroll(event) {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      this.isShowLoading = false;
+    } else {
+      this.isShowLoading = true;
+    }
   }
 
 }

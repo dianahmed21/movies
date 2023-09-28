@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light fixed-top">
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" [ngClass]="{'mt-2': loading && isShowLoading}">
     <a class="navbar-brand" [routerLink]="['/']">FlixBro</a>
     <ul class="navbar-nav ml-auto listMenu">
         <li class="nav-item active">
@@ -19,23 +19,28 @@
             <a class="nav-link" [routerLink]="['/favorites']" routerLinkActive="router-link-active">My Favorites</a>
         </li>
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" *ngIf="language === 'en-US'" style="cursor: pointer;" (click)="isShow = true">
+            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" *ngIf="language === 'en-US'" style="cursor: pointer;" (click)="isShow = true">
                 <img src="assets/images/english.png" width="20px" class="mr-2"> English
             </a>
-            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" *ngIf="language === 'id-ID'" style="cursor: pointer;" (click)="isShow = true">
+            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" *ngIf="language === 'id-ID'" style="cursor: pointer;" (click)="isShow = true">
                 <img src="assets/images/indonesia.png" width="20px" class="mr-2"> Indonesian
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" *ngIf="isShow">
-                <a class="dropdown-item" *ngIf="language !== 'en-US'" style="cursor: pointer;" (click)="setLanguage('en-US')">
+                <a class="dropdown-item" *ngIf="language !== 'en-US'" style="cursor: pointer;"
+                    (click)="setLanguage('en-US')">
                     <img src="assets/images/english.png" width="20px" class="mr-2">English
                 </a>
-                <a class="dropdown-item" *ngIf="language !== 'id-ID'" style="cursor: pointer;" (click)="setLanguage('id-ID')">
+                <a class="dropdown-item" *ngIf="language !== 'id-ID'" style="cursor: pointer;"
+                    (click)="setLanguage('id-ID')">
                     <img src="assets/images/indonesia.png" width="20px" class="mr-2">Indonesian
                 </a>
             </div>
         </li>
     </ul>
-    <span class="sidebar-nav-btn"  pButton icon="pi pi-plus" label="Show" (click)="leftSidebar = true"><img src="assets/images/menu.svg"></span>
+    <span class="sidebar-nav-btn" pButton icon="pi pi-plus" label="Show" (click)="leftSidebar = true"><img
+            src="assets/images/menu.svg"></span>
 </nav>
 
 <p-sidebar [(visible)]="leftSidebar" position="left" [baseZIndex]="10000">
@@ -61,7 +66,8 @@
             </div>
             <div class="sidebarMenu genre_" (click)="leftSidebar = false">
                 <img src="assets/images/favorite.svg">
-                <a class="sidebar-nav-link" [routerLink]="['/favorites']" routerLinkActive="router-link-active">Favorites</a>
+                <a class="sidebar-nav-link" [routerLink]="['/favorites']"
+                    routerLinkActive="router-link-active">Favorites</a>
             </div>
         </div>
     </div>

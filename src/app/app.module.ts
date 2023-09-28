@@ -8,8 +8,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CarouselModule } from 'primeng/carousel';
 import { SidebarModule } from 'primeng/sidebar';
 import { HeaderComponent } from './components/includes/header/header.component';
-import { SliderComponent } from './components/slider/slider.component';
-import { HomeComponent } from './components/home/home.component';
 import { FooterComponent } from './components/includes/footer/footer.component';
 import { PipeModule } from './pipe/pipe.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -24,8 +22,6 @@ import { TvService } from './service/tv.service';
   declarations: [
     AppComponent,
     HeaderComponent,
-    SliderComponent,
-    HomeComponent,
     FooterComponent,
   ],
 
