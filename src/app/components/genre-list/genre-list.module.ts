@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { GenreListRoutingModule } from './genre-list-routing.module';
 import { GenreListComponent } from './genre-list.component';
 import { SkeletonModule } from 'src/app/shared/skeleton/skeleton.module';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { SkeletonModule } from 'src/app/shared/skeleton/skeleton.module';
     CommonModule,
     GenreListRoutingModule,
     MatButtonModule,
-    SkeletonModule
+    SkeletonModule,
+    HttpClientModule
   ]
 })
 export class GenreListModule { }

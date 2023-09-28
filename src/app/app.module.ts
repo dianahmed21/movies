@@ -15,6 +15,10 @@ import { PipeModule } from './pipe/pipe.module';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { SkeletonModule } from './shared/skeleton/skeleton.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+import { MoviesService } from './service/movies.service';
+import { TvService } from './service/tv.service';
 
 @NgModule({
   declarations: [
@@ -36,7 +40,13 @@ import { SkeletonModule } from './shared/skeleton/skeleton.module';
     SidebarModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
-    SkeletonModule
+    SkeletonModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+  ],
+
+  providers: [
+    MoviesService,
+    TvService
   ],
 
   bootstrap: [AppComponent]

@@ -9,6 +9,9 @@ import { SkeletonModule } from 'src/app/shared/skeleton/skeleton.module';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { FormsModule } from '@angular/forms';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { MoviesService } from 'src/app/service/movies.service';
+import { TvService } from 'src/app/service/tv.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -19,10 +22,15 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     SkeletonModule,
     MatPaginatorModule,
     FormsModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    HttpClientModule
   ],
   declarations: [
     TvShowsComponent,
+  ],
+  providers: [
+    MoviesService,
+    TvService
   ]
 })
 export class TvShowsModule { }

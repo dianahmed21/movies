@@ -22,7 +22,8 @@
 
     <ng-container>
         <app-skeleton *ngIf="loader"></app-skeleton>
-        <div class="row" *ngIf="!loader && !isError && searchRes?.length" infinite-scroll (scrolled)="onScrollDown()">
+        <div class="row" *ngIf="!loader && !isError && searchRes?.length" infinite-scroll
+            (scrolled)="getPopularTVShows(true)">
             <div class="col-md-2 listing__items" *ngFor="let item of searchRes">
                 <div [routerLink]="['/tv/', item.id]">
                     <div class="listing-item-style">

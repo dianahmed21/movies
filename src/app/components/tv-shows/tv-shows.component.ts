@@ -45,36 +45,19 @@ export class TvShowsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getPopularTVShows();
+    this.getPopularTVShows(false);
   }
 
-  async getPopularTVShows() {
+  async getPopularTVShows(isInfinite: boolean) {
     this.page += 1;
-    this.loader = true;
+    !isInfinite ? this.loader = true : this.infiniteLoader = true;
     const popularTvShows: any = await new Promise(res => {
       this.tvService.getPopularTVShow(this.page).pipe(delay(2000)).subscribe((data: any) => {
         res(data)
-        this.loader = false;
+        !isInfinite ? this.loader = false : this.infiniteLoader = false;
       }, error => {
         this.isError = true;
-        this.loader = false;
-      });
-    });
-    this.searchRes.push(...popularTvShows.results);
-    this.totalResults = popularTvShows.total_results;
-    this.favoriteCheck();
-  }
-
-  async onScrollDown() {
-    this.page += 1;
-    this.infiniteLoader = true;
-    const popularTvShows: any = await new Promise(res => {
-      this.tvService.getPopularTVShow(this.page).pipe(delay(2000)).subscribe((data: any) => {
-        res(data)
-        this.infiniteLoader = false;
-      }, error => {
-        this.isError = true;
-        this.infiniteLoader = false;
+        !isInfinite ? this.loader = false : this.infiniteLoader = false;
       });
     });
     this.searchRes.push(...popularTvShows.results);
@@ -98,7 +81,7 @@ export class TvShowsComponent implements OnInit {
     }
     else {
       this.page = 1;
-      this.getPopularTVShows();
+      this.getPopularTVShows(false);
     }
   }
 

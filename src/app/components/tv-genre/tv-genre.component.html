@@ -1,6 +1,6 @@
 <div class="listing">
     <div class="listing__head">
-        <h2 class="listing__title">TV Genre: {{ title }}</h2>
+        <h2 class="listing__title mt-5">TV Genre: {{ title }}</h2>
     </div>
     <app-skeleton *ngIf="loader && !isError"></app-skeleton>
     <div class="row" *ngIf="!loader && !isError">

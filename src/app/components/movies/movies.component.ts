@@ -44,36 +44,19 @@ export class MoviesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getNowPlaying();
+    this.getNowPlaying(false);
   }
 
-  async getNowPlaying() {
+  async getNowPlaying(isInfinite: boolean) {
     this.page += 1;
-    this.loader = true;
+    !isInfinite ? this.loader = true : this.infiniteLoader = true;
     const nowPlaying: any = await new Promise(res => {
       this.movieService.getNowPlaying(this.page).pipe(delay(2000)).subscribe((data: any) => {
         res(data)
-        this.loader = false;
+        !isInfinite ? this.loader = false : this.infiniteLoader = false;
       }, error => {
         this.isError = true;
-        this.loader = false;
-      });
-    });
-    this.searchRes.push(...nowPlaying.results);
-    this.totalResults = nowPlaying.total_results;
-    this.favoriteCheck();
-  }
-
-  async onScrollDown() {
-    this.page += 1;
-    this.infiniteLoader = true;
-    const nowPlaying: any = await new Promise(res => {
-      this.movieService.getNowPlaying(this.page).pipe(delay(2000)).subscribe((data: any) => {
-        res(data)
-        this.infiniteLoader = false;
-      }, error => {
-        this.isError = true;
-        this.infiniteLoader = false;
+        !isInfinite ? this.loader = false : this.infiniteLoader = false;
       });
     });
     this.searchRes.push(...nowPlaying.results);
@@ -97,7 +80,7 @@ export class MoviesComponent implements OnInit {
     }
     else {
       this.page = 1;
-      this.getNowPlaying();
+      this.getNowPlaying(false);
     }
   }
 

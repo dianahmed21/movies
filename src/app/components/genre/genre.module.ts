@@ -5,8 +5,8 @@ import { GenreRoutingModule } from './genre-routing.module';
 import { GenreComponent } from './genre.component';
 import { PipeModule } from 'src/app/pipe/pipe.module';
 import { SkeletonModule } from 'src/app/shared/skeleton/skeleton.module';
-import {MatPaginatorModule} from '@angular/material/paginator';
-
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 
 @NgModule({
@@ -16,7 +16,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     GenreRoutingModule,
     PipeModule,
     SkeletonModule,
-    MatPaginatorModule
-  ]
+    MatPaginatorModule,
+    InfiniteScrollModule
+  ],
 })
 export class GenreModule { }

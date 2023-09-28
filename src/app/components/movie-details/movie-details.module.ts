@@ -10,6 +10,9 @@ import { AppMovieDialogComponent } from './app-movie-dialog/app-movie-dialog.com
 import { CarouselModule } from 'primeng/carousel';
 import { PipeModule } from 'src/app/pipe/pipe.module';
 import { SkeletonModule } from 'src/app/shared/skeleton/skeleton.module';
+import { HttpClientModule } from '@angular/common/http';
+import { MoviesService } from 'src/app/service/movies.service';
+import { TvService } from 'src/app/service/tv.service';
 
 
 @NgModule({
@@ -28,8 +31,12 @@ import { SkeletonModule } from 'src/app/shared/skeleton/skeleton.module';
     MatDialogModule,
     MatIconModule,
     CarouselModule,
-    SkeletonModule
+    SkeletonModule,
+    HttpClientModule
   ],
-
+  providers: [
+    MoviesService,
+    TvService
+  ],
 })
 export class MovieDetailsModule { }

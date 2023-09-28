@@ -3,8 +3,9 @@
         <h2 class="listing__title mt-5">Movie Genre: {{ title }}</h2>
     </div>
     <app-skeleton *ngIf="loader && !isError"></app-skeleton>
-    <div class="row" *ngIf="!loader && !isError">
-        <div class="col-md-2 listing__items" *ngFor="let movie of moviesGenre | slice:0:18">
+    <div class="row" *ngIf="!loader && !isError && moviesGenre?.length" infinite-scroll
+        (scrolled)="getMoviesGenre(true)">
+        <div class="col-md-2 listing__items" *ngFor="let movie of moviesGenre">
             <div [routerLink]="['/movies/', movie.id]">
                 <div class="listing-item-style">
                     <div class="overlay">
@@ -18,12 +19,26 @@
                     </p>
                 </div>
             </div>
+            <button type="button" class="btn btn-warning font-weight-bold ml-1 mb-3" *ngIf="!movie?.isFavorite"
+                (click)="setFavorite(movie)">
+                <i class="material-icons" style="font-size: 11px;">star</i> Mark as Favorite
+            </button>
+            <button type="button" class="btn btn-warning font-weight-bold ml-1 mb-3" *ngIf="movie?.isFavorite"
+                (click)="removeFavorite(movie)">
+                <i class="material-icons" style="font-size: 11px;">star_border</i> Remove Favorite
+            </button>
         </div>
     </div>
+
+    <app-skeleton *ngIf="infiniteLoader"></app-skeleton>
+
+    <button id="myBtn" type="button" class="btn btn-primary" (click)="scrollToTop()" data-placement="left">
+        <i class="material-icons">arrow_upward</i>
+    </button>
 
     <div class="text-center" *ngIf="!loader && isError">
         <h1>- 500 -</h1>
         <h3>Something went error</h3>
     </div>
-    
+
 </div>

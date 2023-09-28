@@ -29,9 +29,11 @@ export class SliderComponent implements OnInit {
     this.sliderTimer();
   }
 
-  getnowPlayingMovies(page: number) {
-    this.movieService.getNowPlaying(page).pipe(delay(2000)).subscribe((res: any) => {
-      this.movies_data = res.results;
+  async getnowPlayingMovies(page: number) {
+    this.movies_data = await new Promise(res => {
+      this.movieService.getNowPlaying(page).pipe(delay(2000)).subscribe((data: any) => {
+        res(data.results);
+      });
     });
   }
 

@@ -1,6 +1,5 @@
 import { ViewportScroller } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
-import { MoviesService } from 'src/app/service/movies.service';
 
 @Component({
   selector: 'app-favorites',

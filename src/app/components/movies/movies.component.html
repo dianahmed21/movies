@@ -22,7 +22,8 @@
 
     <ng-container>
         <app-skeleton *ngIf="loader && !isError"></app-skeleton>
-        <div class="row" *ngIf="!loader && !isError && searchRes?.length" infinite-scroll (scrolled)="onScrollDown()">
+        <div class="row" *ngIf="!loader && !isError && searchRes?.length" infinite-scroll
+            (scrolled)="getNowPlaying(true)">
             <div class="col-md-2 listing__items" *ngFor="let movie of searchRes">
                 <div [routerLink]="['/movies/', movie.id]">
                     <div class="listing-item-style">

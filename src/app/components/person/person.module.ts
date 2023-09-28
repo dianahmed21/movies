@@ -5,6 +5,9 @@ import { PersonComponent } from './person.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CarouselModule } from 'primeng/carousel';
 import { PipeModule } from 'src/app/pipe/pipe.module';
+import { HttpClientModule } from '@angular/common/http';
+import { MoviesService } from 'src/app/service/movies.service';
+import { TvService } from 'src/app/service/tv.service';
 
 
 
@@ -15,7 +18,12 @@ import { PipeModule } from 'src/app/pipe/pipe.module';
     PersonRoutingModule,
     PipeModule,
     MatTabsModule,
-    CarouselModule
+    CarouselModule,
+    HttpClientModule
+  ],
+  providers: [
+    MoviesService,
+    TvService
   ]
 })
 export class PersonModule { }
