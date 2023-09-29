@@ -25,6 +25,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 git clone https://github.com/dianahmed21/movies.git
 cd angular-movie-app
 npm install
+npx playwright install
 ng serve and go to http://localhost:4200/
 ```
 
@@ -32,7 +33,9 @@ ng serve and go to http://localhost:4200/
 
 - This project using playwright (e2e test) version 1.38.1
 - For settings you can go to folder e2e-playwright and click file example.spec.ts
-- For running : npx playwright tes
+- For simple settings, you can generate test code like video record with syntax : npx playwright codegen localhost:4200
+- Running Test : npx playwright test
+- Running Debug Test : npx playwright test --headed --debug
 - For detail settings and easier you cun running : npx playwright codegen and make record code according to your wishes
 - For more details, you can see via the following link : https://playwright.dev/
 

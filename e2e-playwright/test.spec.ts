@@ -1,0 +1,38 @@
+import { test, expect } from '@playwright/test';
+
+test('test', async ({ page }) => {
+    await page.goto('http://localhost:4200/');
+    await page.locator('.backdrop').click();
+    await page.getByRole('heading', { name: 'Trending Movies' }).click();
+    await page.getByRole('heading', { name: 'Trending TV Shows' }).click();
+    await page.locator('#pr_id_1').getByRole('button', { name: '' }).click();
+    await page.locator('#pr_id_2').getByRole('button', { name: '' }).click();
+    await page.locator('div').filter({ hasText: 'Trending MoviesExplore Allplay_arrow PLAY NOWBlue Beetlestar7.2 /102023star Mark' }).getByRole('link').click();
+    await page.getByPlaceholder('Search for movies...').click();
+    await page.getByPlaceholder('Search for movies...').fill('meg');
+    await page.getByPlaceholder('Search for movies...').press('Enter');
+    await page.locator('.col-md-2 > .btn').first().click();
+    await page.locator('div:nth-child(2) > .btn').click();
+    await page.locator('div:nth-child(3) > .btn').click();
+    await page.getByRole('link', { name: 'My Favorites' }).click();
+    await page.getByRole('navigation').getByRole('link', { name: 'Movies' }).click();
+    await page.getByRole('button', { name: 'star_border Remove Favorite' }).click();
+    await page.getByRole('link', { name: 'My Favorites' }).click();
+    await page.getByRole('navigation').getByRole('link', { name: 'Movies' }).click();
+    await page.getByRole('contentinfo').getByRole('list').click();
+    await page.getByRole('contentinfo').getByRole('list').click();
+    await page.locator('.overlay').first().focus();
+    await page.mouse.wheel(0, 600);
+    await page.locator('.overlay').last().focus();
+    await page.getByRole('button', { name: 'arrow_upward' }).click();
+    await page.getByRole('navigation').getByRole('link', { name: 'TV Shows' }).click();
+    await page.getByRole('contentinfo').getByRole('list').click();
+    await page.locator('.overlay').first().focus();
+    await page.mouse.wheel(0, 600);
+    await page.locator('.overlay').last().focus();
+    await page.getByRole('button', { name: 'arrow_upward' }).click();
+    await page.getByRole('navigation').getByRole('link', { name: 'Home (current)' }).click();
+    await page.getByText('English').click();
+    await page.getByText('Indonesian').click();
+    await page.locator('.backdrop').click();
+});

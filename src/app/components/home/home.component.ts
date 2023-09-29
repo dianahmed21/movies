@@ -55,16 +55,7 @@ export class HomeComponent implements OnInit {
         this.loader = false;
       });
     });
-    const favoriteData: any[] = JSON.parse(localStorage.getItem('movie'));
-    if (favoriteData?.length && this.nowPlaying.length) {
-      favoriteData.forEach(favorite => {
-        this.nowPlaying.forEach(movie => {
-          if (favorite.id === movie.id) {
-            movie.isFavorite = true;
-          }
-        })
-      })
-    }
+    this.favoriteCheck();
   }
 
   async tvShow(page: number) {
@@ -78,16 +69,7 @@ export class HomeComponent implements OnInit {
         this.loader = false;
       });
     });
-    const favoriteData: any[] = JSON.parse(localStorage.getItem('tv'));
-    if (favoriteData?.length && this.tvShows.length) {
-      favoriteData.forEach(favorite => {
-        this.tvShows.forEach(tv => {
-          if (favorite.id === tv.id) {
-            tv.isFavorite = true;
-          }
-        })
-      })
-    }
+    this.favoriteCheck();
   }
 
   setFavorite(type, data) {
@@ -101,7 +83,28 @@ export class HomeComponent implements OnInit {
       tv.push(data);
       localStorage.setItem('tv', JSON.stringify(tv));
     }
-    this.ngOnInit();
+    this.favoriteCheck();
+  }
+
+  private favoriteCheck() {
+    const favoriteMovie: any[] = JSON.parse(localStorage.getItem('movie'));
+    if (favoriteMovie?.length && this.nowPlaying.length) {
+      favoriteMovie.forEach(favorite => {
+        const checkSameId = this.nowPlaying.filter(x => x.id === favorite.id);
+        if (checkSameId.length) {
+          this.nowPlaying.filter(x => x.id === favorite.id)[0].isFavorite = true
+        }
+      });
+    }
+    const favoriteTv: any[] = JSON.parse(localStorage.getItem('tv'));
+    if (favoriteTv?.length && this.tvShows.length) {
+      favoriteTv.forEach(favorite => {
+        const checkSameId = this.tvShows.filter(x => x.id === favorite.id);
+        if (checkSameId.length) {
+          this.tvShows.filter(x => x.id === favorite.id)[0].isFavorite = true
+        }
+      });
+    }
   }
 
   removeFavorite(type, data) {
@@ -110,11 +113,12 @@ export class HomeComponent implements OnInit {
     if (type === 'movie' && movie.length) {
       movie = movie.filter(x => x.id !== data.id);
       localStorage.setItem('movie', JSON.stringify(movie));
+      this.nowPlaying.filter(x => x.id === data.id)[0].isFavorite = false;
     }
     else if (type === 'tv' && tv.length) {
       tv = tv.filter(x => x.id !== data.id);
       localStorage.setItem('tv', JSON.stringify(tv));
+      this.tvShows.filter(x => x.id === data.id)[0].isFavorite = false;
     }
-    this.ngOnInit();
   }
 }

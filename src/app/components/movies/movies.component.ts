@@ -95,14 +95,10 @@ export class MoviesComponent implements OnInit {
     const favoriteData: any[] = JSON.parse(localStorage.getItem('movie'));
     if (favoriteData?.length && this.searchRes.length) {
       favoriteData.forEach(favorite => {
-        this.searchRes.forEach(movie => {
-          if (favorite.id === movie.id) {
-            movie.isFavorite = true;
-          }
-          else {
-            movie.isFavorite = false;
-          }
-        });
+        const checkSameId = this.searchRes.filter(x => x.id === favorite.id);
+        if (checkSameId.length) {
+          this.searchRes.filter(x => x.id === favorite.id)[0].isFavorite = true
+        }
       });
     }
   }

@@ -96,14 +96,10 @@ export class TvShowsComponent implements OnInit {
     const favoriteData: any[] = JSON.parse(localStorage.getItem('tv'));
     if (favoriteData?.length && this.searchRes.length) {
       favoriteData.forEach(favorite => {
-        this.searchRes.forEach(tv => {
-          if (favorite.id === tv.id) {
-            tv.isFavorite = true;
-          }
-          else {
-            tv.isFavorite = false;
-          }
-        });
+        const checkSameId = this.searchRes.filter(x => x.id === favorite.id);
+        if (checkSameId.length) {
+          this.searchRes.filter(x => x.id === favorite.id)[0].isFavorite = true
+        }
       });
     }
   }
