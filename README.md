@@ -14,6 +14,8 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 - Playwright 1.38.1
 - Rxjs 6.5.2
 - Bootstrap 4.0.0
+- Angular Service Worker 9.1.13
+- Ngx Infinite Scroll 9.1.0
 - PrimeNg Library 9.0.0 -> https://www.primefaces.org/primeng/#/
 - The Movie DB get Your own api key -> https://www.themoviedb.org
 
